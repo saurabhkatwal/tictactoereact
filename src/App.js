@@ -6,6 +6,7 @@ function App() {
   const [moveNo,setMoveNo]=useState(0);
   const [squares,setSquares]=useState(Array(9).fill(null));
   const [gameWon,setGameWon]=useState(false);
+  const [gameDrawn,setGameDrawn]=useState(false);
   const solutions=[
     [0,1,2],
     [3,4,5],
@@ -24,6 +25,11 @@ function App() {
       }
     })
   }
+  const checkGameDrawn=()=>{
+    if(moveNo===8){
+      setGameDrawn(true);
+    }
+  }
   const countMove=(id)=>{
     if(squares[id]===null){
       setMoveNo(moveNo+1);
@@ -36,6 +42,7 @@ function App() {
       }
     }
     checkGameWon();
+    checkGameDrawn();
   }
   const resetData=()=>{
     setMoveNo(0);
@@ -45,7 +52,7 @@ function App() {
   return (
     <div className="App">
       <Buttons gameWon={gameWon} squares={squares} countMove={countMove} moveNo={moveNo}/>
-      {gameWon?<h3>Game Over</h3>:<h3>Current turn:{moveNo%2===0?"O":"X"}</h3>}
+      {gameWon||gameDrawn?<h3>Game Over</h3>:<h3>Current turn:{moveNo%2===0?"O":"X"}</h3>}
       {gameWon?<h3>Winner:{moveNo%2===0?"X":"O"}</h3>:""}
       {gameWon?<ResetBtn resetData={resetData}/>:""}
     </div>
